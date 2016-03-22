@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.4'
+ruby '2.2.1'
 gem 'therubyracer', :platforms => :ruby
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
