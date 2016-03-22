@@ -1,0 +1,371 @@
+<div class="container-fluid">
+  <div class="page-header">
+    <h1>
+      <%= @trader.username %>'s Profile
+      <% if current_trader.id == @trader.id %>
+          <%= link_to 'Create New Post', new_post_path, class: "btn btn-danger new-post"%>
+      <% end %>
+    </h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <% if (!@trader.picture) %>
+        <%= image_tag 'rsz_profile.jpg' %><br/> <br/>
+          <% if current_trader.id == @trader.id %>
+            <%= link_to 'Update profile picture', new_picture_path, class: "btn ProfilePicButton but-g" %>
+          <%end%>
+      <% else %>
+        <%= image_tag @trader.picture.image.url(:medium) %><br/> <br/>
+          <% if current_trader.id == @trader.id %>
+            <%= link_to 'Update profile picture', edit_picture_path(@trader.picture), class: "btn ProfilePicButton but-g" %>
+          <%end%>
+      <% end %>
+    </div>
+
+    <div class="col-md-5 user-information">
+      <% if current_trader.id == @trader.id %>
+        <h5><strong>Email:</strong> <%= @trader.email %></h5>
+        <h5><strong>Password:</strong> **********</h5>
+      <%end%>
+      <h5><strong>Description:</strong>
+        <% if @trader.description %>
+            <%= @trader.description %>
+        <% elsif current_trader.id == @trader.id %>
+            (You can add a description from update account details)
+        <% else %>
+            (Description not provided)
+        <% end %></h5>
+      <h5><strong>Seller Rating:</strong>
+      <% if @rating %>
+        <span class="stars"><span style="width: <%= @rating * 16 %>px;"></span></span></h5>
+      <% else %>
+        no previous ratings
+      <% end %>
+      <h5><strong>Last signed in at: </strong><%=
+            if (@trader.last_sign_in_at)
+                @trader.last_sign_in_at.to_formatted_s(:long)
+            end
+        %></h5>
+      <% if current_trader.id == @trader.id %>
+        <div>
+          <%= link_to 'Update account details', edit_trader_registration_path, class: "but-b categoryButton"%>
+        </div>
+      <%end%>
+      <br/>
+      <% if current_trader.id == @trader.id %>
+        <h5><strong>Approved Buyer Categories:</strong>
+          <%= @approvedBuy.map{|a| a.buy_cat.name}.join(", ") %>
+        </h5>
+      <% end %>
+
+      <h5><strong>Approved Seller Categories:</strong>
+        <%= @approvedSell.map{|a| a.sell_cat.name}.join(", ") %>
+      </h5>
+      <% if current_trader.id == @trader.id %>
+        <div>
+          <%= link_to 'Update approved categories', approved_path, class: "but-b categoryButton"%>
+        </div>
+      <%end%>
+      </br>
+      </br>
+    </div>
+  </div>
+
+  <% if current_trader.id == @trader.id && !@bids.empty? %>
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Current Bids:</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Time Left</th>
+                <th>Highest Bid?</th>
+                <th>View</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @bids.each do |bid| %>
+                  <tr>
+                    <td class="col-md-1"><%= image_tag bid.post.image.url(:small) %></td>
+                    <td><%= bid.post.name %></td>
+                    <td>£<%= number_with_precision(bid.amount, precision: 2) %></td>
+                    <% if bid.post.expired %>
+                        <td>Ended</td>
+                    <% else %>
+                        <td> <%= distance_of_time_in_words(bid.post.created_at + 7.days, Time.now) %></td>
+                    <% end %>
+                    <% if bid.highest_bid? %>
+                      <td>Yes</td>
+                    <% else %>
+                        <td>No</td>
+                    <% end %>
+                    <td><%= link_to 'View', bid.post, class: "btn but-b"%></td>
+                    <% if !bid.highest_bid? %>
+                      <td><%= link_to 'Delete', bid_path(bid), method: :delete, class: "btn but-r"%></td>
+                    <% else %>
+                      <td>n/a</td>
+                    <% end %>
+                  </tr>
+               <% end %>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Current Buy-it-now Posts:</h3>
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Uploaded</th>
+          <th>View</th>
+          <% if current_trader.id == @trader.id %>
+              <th>Edit</th>
+              <th>Delete</th>
+          <%end%>
+        </tr>
+        </thead>
+        <tbody>
+        <% @posts.each do |post| %>
+            <% if (post.active) %>
+                <tr>
+                  <td class="col-md-1"><%= image_tag post.image.url(:small) %></td>
+                  <td><%= post.name %></td>
+                  <td><%= post.description %></td>
+                  <td>£<%= number_with_precision(post.price, precision: 2) %></td>
+                  <td><%= distance_of_time_in_words(post.created_at, Time.now)%> ago</td>
+                  <td><%= link_to 'View', post, class: "btn but-b"%></td>
+                  <% if current_trader.id == @trader.id %>
+                      <td><%= link_to 'Edit', edit_post_path(post), class: "btn but-g"%></td>
+                      <td><%= link_to 'Delete', post_path(post), method: :delete,data: { confirm: 'Are you sure?' }, class: "btn but-r"%></td>
+                  <%end%>
+                </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Current Auction Posts:</h3>
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Current Price</th>
+          <th>Time Left</th>
+          <th>Number of Bids</th>
+          <th>View</th>
+          <% if current_trader.id == @trader.id %>
+              <th>Edit</th>
+              <th>Delete</th>
+          <%end%>
+        </tr>
+        </thead>
+        <tbody>
+        <% @auctions.each do |post| %>
+            <% if (post.active) %>
+                <tr>
+                  <td class="col-md-1"><%= image_tag post.image.url(:small) %></td>
+                  <td><%= post.name %></td>
+                  <td><%= post.description %></td>
+                  <td>£<%= number_with_precision(post.price, precision: 2) %></td>
+                  <% if post.expired %>
+                    <td>Ended</td>
+                  <% else %>
+                    <td> <%= distance_of_time_in_words(post.created_at + 7.days, Time.now) %></td>
+                  <% end %>
+                  <td><%= post.no_of_bids %></td>
+                  <td><%= link_to 'View', post, class: "btn but-b"%></td>
+                  <% if current_trader.id == @trader.id %>
+                      <td><%= link_to 'Edit', edit_post_path(post), class: "btn but-g"%></td>
+                      <td><%= link_to 'Delete', post_path(post), method: :delete,data: { confirm: 'Are you sure?' }, class: "btn but-r"%></td>
+                  <%end%>
+                </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <% if current_trader.id == @trader.id && !@requested_samples.empty? %>
+        <div class="col-md-8">
+          <h3>Samples Requested:</h3>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Trader</th>
+                <th>Deliver to</th>
+                <th>Delivered/Sold?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @requested_samples.each do |r| %>
+                <tr>
+                  <% a = [r.line1,r.city,r.county,r.postcode] %>
+                  <td class="col-md-1"><%= image_tag r.post.image.url(:small)%></td>
+                  <td><%= r.post.name %></td>
+                  <td><%= r.requestee.username %></td>
+                  <td><%= a.map{|x| x}.join(", ")%></td>
+                  <td><%= link_to 'Dismiss', sample_delivered_path(:request => r), method:"delivered", class:"btn but-r"%></td>
+                </tr>
+              <%end%>
+            </tbody>
+          </table>
+        </div>
+      <%end%>
+    </div>
+  </div>
+
+  <% if !@sold.empty? %>
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Sold Items:</h3>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Buyer</th>
+              <th>Time</th>
+              <th>Deliver to</th>
+              <th>Expected Delivery</th>
+              <th>Feedback</th>
+              <th>Rating</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @sold.each do |sold| %>
+              <tr>
+                <td><%= image_tag sold.post.image.url(:small) %></td>
+                <td><%= sold.post.name %></td>
+                <td>£<%= number_with_precision(sold.post.price, precision: 2) %></td>
+                <td><%= sold.trader.username %></td>
+                <td><%= distance_of_time_in_words(sold.time, Time.now)%> ago</td>
+                <td><%= sold.city%></td>
+                <td><%= (sold.time + sold.post.delivery_days.days ).strftime("%a %d %b %Y") %>
+                <td><%= sold.feedback %></td>
+                <td><span class="stars"><span style="width: <%= sold.rating * 16 %>px;"></span></span></td>
+                <td><%= link_to 'View', sold, class: "btn but-b"%></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+
+
+  <% if current_trader.id == @trader.id && !@bought.empty? %>
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Purchased Items:</h3>
+        <table class="table table-bordered">
+          <thead>
+            <tr class="row">
+              <th>Image</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Seller</th>
+              <th>Time</th>
+              <th>Coming From</th>
+              <th>Expected Delivery</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @bought.each do |bought| %>
+              <tr class="row">
+                <td ><%= image_tag bought.post.image.url(:small) %></td>
+                <td><%=  bought.post.name %></td>
+                <td>£<%= number_with_precision(bought.post.price, precision: 2) %></td>
+                <td><%= link_to bought.post.trader.username, profiles_path(bought.post.trader.id)  %></td>
+                <td><%= distance_of_time_in_words(bought.time, Time.now).humanize%> ago</td>
+                <td><%= bought.post.city %></td>
+                <td><%= (bought.time + bought.post.delivery_days.days ).strftime("%a %d %b %Y") %> </td>
+                <td>
+                  <div class="btn-group-vertical" role="group">
+                    <%= link_to 'View', bought, class: "btn but-b"%>
+                    <button type="submit" id="feedback" value="<%= bought.id %>" class="feedback btn-block btn but-g" data-toggle="modal" data-target="#myModal">Give Feedback</button>
+                  </div>
+                </td>
+              </tr>
+          <%end%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <%end%>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          Feedback form
+        </h4>
+      </div>
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form role="form">
+          <div class="form-group">
+            <label for="givefeedback">Give your feedback:</label>
+            <input type="text" class="form-control" id="content" placeholder="Feedback"/>
+          </div>
+          <div class="form-group">
+            <label for="rating" class="control-label input-group">Give this trade from 1 to 5 stars: (Where 5 is the best rating)</label>
+            <div class="btn-group" data-toggle="buttons">
+              <% (1..5).each do |i| %>
+                  <label class="btn btn-default">
+                    <input name="rating" value="<%= i %>" type="radio"><%= i %>
+                  </label>
+              <% end %>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="hidden" class="form-control" id="formid"/>
+          </div>
+        </form>
+      </div>
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          Close
+        </button>
+
+        <button type="button" class="btn btn-primary" id="submit">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

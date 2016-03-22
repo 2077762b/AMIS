@@ -1,0 +1,101 @@
+<div class="page-header">
+  <h1><%= @post.name %></h1>
+</div>
+
+<div class="row">
+
+  <div class="col-md-4 alignCentre">
+
+  </br><%= image_tag @post.image.url(:medium) %><br/><br/>
+  <%= link_to 'See similar items', @post.subcategory, class: "btn btn-info" %></br></br>
+
+    <% if current_trader == @post.trader %>
+        You cannot buy your own items
+    <% end %>
+
+    <% if current_trader != @post.trader && !@in_buy_cat %>
+        You cannot buy this item as it is not in a category you have been approved to buy in
+    <%end%>
+
+    <% if current_trader != @post.trader && @in_buy_cat && @post.provide_samples %>
+      <div class="row">
+        <b>Request a sample from the seller?</b><br/>
+        (Please note that there is a risk you will not receive your samples if the item is sold)
+        <%= form_tag(request_sample_path(post: @post.id), :method => "post", id: "request_sample_form") do %>
+              <div class="input-append">
+              <%= text_field_tag :line1, params[:line1], class: "span2", placeholder: "Line 1", class: "samples" %>
+                <%= text_field_tag :city, params[:city], class: "span2", placeholder: "City",  class: "samples"%>
+                <%= text_field_tag :county, params[:county], class: "span2", placeholder: "County", class: "samples" %>
+                <%= text_field_tag :postcode, params[:postcode], class: "span2", placeholder: "Postcode", class: "samples" %>
+                <button class="btn b-button btn-info" type="submit">Request Sample</button>
+              </div>
+          <% end %>
+        </br>
+      </div>
+    <%end%>
+
+    <% if current_trader != @post.trader && @in_buy_cat && !@post.auction %>
+        <%= link_to "Purchase",  paypal_path(post: @post), class: "btn btn-success btn-lg"%>
+    <% end %>
+
+    <br/>
+    <br/>
+    <br/>
+  </div>
+
+  <div class="col-md-6">
+    <h4><%= @post.description %></h4>
+    </br>
+
+    <h5><strong>Category:</strong> <%= @post.subcategory.name %> (<%= @post.subcategory.category.name %>)</h5>
+    <h5><strong>Quantity:</strong> <%= @post.quantity %></h5>
+    <% if @post.auction %>
+
+      <h5><strong>Type:</strong> Auction</h5>
+      <h5><strong>Current Price:</strong> £<%= number_with_precision(@post.price, precision: 2) %></h5>
+      <% if current_trader != @post.trader && @in_buy_cat && @post.auction %>
+        <%= simple_form_for (@bid), :html => { :class => 'form-inline' } do |f| %>
+            <%= f.error_notification %>
+            <%= f.input :post_id, :as => :hidden %>
+            <%= f.input :amount, placeholder: "bid", :as => 'float', label: "Amount: £",wrapper_html: { class: 'largeFont' }%>
+            <%= f.button :submit, "Make Bid", class: "btn btn-success"%>
+        <% end %>
+      <% end %>
+      <h5><div class="red"><strong>Time Left:</strong> <%= distance_of_time_in_words(@post.created_at + 7.days, Time.now) %></div></h5>
+
+    <% else %>
+      <h5><strong>Price:</strong> £<%= number_with_precision(@post.price, precision: 2) %></h5>
+      <h5><strong>Type:</strong> Buy-it-now</h5>
+    <% end %>
+  <h5><strong>Uploaded:</strong> <%= distance_of_time_in_words(@post.created_at, Time.now)%> ago</h5>
+  <% if !(@post.private) %>
+      <h5><strong>Seller:</strong> <%= link_to @post.trader.username, profiles_path(@post.trader.id) %></h5>
+      <h5><strong>Location:</strong> <%= @post.city %></h5>
+
+      <% if @post.trader.description %>
+          <h5><strong>Trader Description:</strong> <%= @post.trader.description %></h5>
+      <% end %>
+  <% end %>
+  <h5><strong>Seller Rating:</strong><span class="stars"><span style="width: <%= @rating *16 %>px;"></span></span></h5>
+  <h5><strong>Delivery:</strong>
+  <% if (@post.delivery) %>
+        Delivery will be provided by the seller
+    <% else %>
+        Delivery will be provided by AMIS at a cost of £ xx.xx
+    <% end %></h5>
+    <h5><strong>Delivered by:</strong> <%= (Date.today() + @post.delivery_days ).strftime("%a %d %b %Y") %></h5>
+  </div>
+
+  <div class="col-md-2 reportButton">
+    Please report this post if you believe it breaks the rules of this website
+    <%= link_to 'Report', report_path(post: @post.id), method: :post, class: "btn btn-danger" %>
+  </div>
+
+</div>
+
+
+
+
+
+
+

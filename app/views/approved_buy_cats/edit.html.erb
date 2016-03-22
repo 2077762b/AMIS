@@ -1,0 +1,15 @@
+<div class="page-header">
+  <h2>Make application to get <%= @approved_buy_cat.buy_cat.name %> in your approved buy list</h2>
+</div>
+
+<%= simple_form_for(@approved_buy_cat) do |f| %>
+    <%= f.error_notification %>
+
+    <%= f.input :buy_cat_id, :as => :hidden, :value => @buy_cat_id %>
+    <%= f.input :document, as: :file, label: "Please upload a PDF document
+    providing evidence that you can buy items legally in this category" %>
+    <%= f.button :submit, "Make application" %>
+
+<% end %>
+
+

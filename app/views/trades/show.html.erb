@@ -1,0 +1,30 @@
+<div class="page-header">
+  <h1>
+    Past Trade: <%= @post.name %>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <%= image_tag @post.image.url(:medium) %>
+    <h4 class="trade-description"><strong>Description: </strong><%= @post.description %></h4>
+  </div>
+
+  <div class="col-md-6">
+    <% a = [@post.line1,@post.city,@post.county,@post.postcode] %>
+    <% b= [@trade.line1,@trade.city,@trade.county,@trade.postcode] %>
+
+    <h5><strong>Category:</strong> <%= @post.subcategory.name %> (<%= @post.subcategory.category.name %>)</h5>
+    <h5><strong>Quantity:</strong> <%= @post.quantity %></h5>
+    <h5><strong>Price:</strong> £<%= number_with_precision(@post.price, precision: 2) %></h5>
+    <h5><strong>Completed:</strong> <%= (@trade.time).strftime("%H:%M on %d %b %Y") %></h5>
+    <h5><strong>Seller:</strong> <%= @post.trader.username %></h5>
+    <h5><strong>Seller Location:</strong> <%= a.map{|x| x}.join(", ") %></h5>
+    <h5><strong>Trade Rating:</strong> <span class="stars"><span style="width: <%= @trade.rating * 16 %>px;"></span></span></h5>
+    <h5><strong>Feedback:</strong> <%= @trade.feedback %></h5>
+    <h5><strong>Buyer:</strong> <%= @trade.trader.username %></h5>
+    <h5><strong>Delivery Location:</strong> <%= b.map{|x| x}.join(", ")%></h5>
+    <h5><strong>Estimated Delivery:</strong> <%= (@trade.time + @post.delivery_days.days ).strftime("%a %d %b %Y") %></h5>
+  </div>
+</div>
+

@@ -1,0 +1,57 @@
+<%= javascript_include_tag "https://www.google.com/jsapi", "chartkick" %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    //Check if the current URL contains '#'
+    if(document.URL.indexOf("#")==-1){
+      // Set the URL to whatever it was plus "#".
+      url = document.URL+"#";
+      location = "#";
+
+      //Reload the page
+      location.reload(true);
+    }
+  });
+</script>
+
+<h3>Statistics Page</h3>
+
+<div class="row">
+  <div class="col-md-6">
+    <h5>Percentage of trades per category</h5>
+    <%= pie_chart @trades_per_cat %>
+  </div>
+  <div class="col-md-6">
+    <h5>Percentage of total value of sold items per category</h5>
+    <%= pie_chart @total_value_per_cat %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <br/>
+    <h5>Number of trades per category</h5>
+    <%= column_chart @trades_per_cat, ytitle: "Number of trades" , colors: ["red", "#999"]%>
+  </div>
+  <div class="col-md-6">
+    <br/>
+    <h5>Total value of trades per category</h5>
+    <%= column_chart @total_value_per_cat, ytitle: "Total value", colors: ["blue", "#999"],
+                     library: {vAxis:  {format: "currency"}}%>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <br/>
+    <h5>Average value of trades carried out in each category</h5>
+    <%= column_chart @average_value_per_cat, ytitle: "Average price", colors: ["green", "#999"],
+                     library: {vAxis:  {format: "currency"}}%>
+  </div>
+  <div class="col-md-6">
+    <br/>
+    <h5>Maximum value of trade carried out in each category</h5>
+    <%= column_chart @max_cost_per_cat, ytitle: "Maximum price", colors: ["orange", "#999"],
+                     library: {vAxis:  {format: "currency"}}%>
+  </div>
+</div>

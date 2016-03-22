@@ -1,0 +1,39 @@
+<% @posts.each do |post| %>
+  <% if post.active && !post.expired %>
+      <div class="col-sm-6 col-md-5 col-lg-4">
+        <div class="thumbnail post">
+          <%= link_to (image_tag (post.image.url(:medium))), post %><br/>
+          <div class="caption">
+            <div class="post_description">
+              <% name = post.name.downcase %>
+              <% name[0] = name[0].capitalize %>
+              <% description = post.description.downcase %>
+              <% quantity = post.quantity.downcase %>
+              <h4><%= truncate(name,length:22) %><br/></h4>
+              <b><%= "Description: " %></b>
+              <%= truncate(description,length:40) %><br/>
+              <b><%= "Quantity:" %></b>
+              <%= truncate(quantity,length:20 )%><br/>
+              <% if (post.auction) %>
+                  <b><%= "Current Price:" %></b> <%= "£" %>
+                  <%= number_with_precision(post.price, precision: 2) %><br/>
+                  <b><%= "Type:" %></b> Auction<br/>
+                  <b><%= "Time Left:"%></b>
+                  <%= distance_of_time_in_words(post.created_at + 7.days, Time.now) %><br/>
+              <% else %>
+                  <b><%= "Price:" %></b> <%= "£" %>
+                  <%= number_with_precision(post.price, precision: 2) %><br/>
+                  <b><%= "Type:" %></b> Buy it now<br/>
+                  <b><%= "Posted:" %></b>
+                  <%= distance_of_time_in_words(Time.now,post.created_at) %> ago<br/>
+              <% end %>
+              <b><%= "Category: " %></b>
+              <%= post.subcategory.name %><br/>
+              <br/>
+              <%= link_to 'See item', post, class: "btn btn-primary btn-block" %>
+            </div>
+          </div>
+        </div>
+      </div>
+  <% end %>
+<% end %>

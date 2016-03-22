@@ -1,0 +1,112 @@
+<div class="row">
+  <div class="col-md-5">
+    <h3>Buy Categories:</h3>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Apply</th>
+      </tr>
+      </thead>
+      <tbody>
+        <% count = 0 %>
+        <% @subcategories.each do |subcategory| %>
+          <% count = count + 1 %>
+          <% check = 0 %>
+          <tr>
+            <td><%= subcategory.name %></td>
+
+            <% @trader.approved_buy_cats.each do |approved| %>
+              <% if (approved.buy_cat == subcategory) %>
+
+                <% if (approved.status == 1) %>
+                  <td>Approved</td>
+                  <td><%= link_to 'Apply', home_path, class: "btn but-b",disabled: "disabled"%></td>
+                  <% check = 1 %>
+                  <% break %>
+                <% end %>
+                <% if (approved.status == 2) %>
+                  <td>Pending Approval</td>
+                  <td><%= link_to 'Apply', home_path, class: "btn but-b",disabled: "disabled" %></td>
+                  <% check = 1 %>
+                  <% break %>
+                <% end %>
+                <% if (approved.status == 3) %>
+                  <td>Declined</td>
+                  <td><%= link_to 'Apply', edit_approved_buy_cat_path(approved), class: "btn but-b"%></td>
+                  <% check = 1 %>
+                  <% break %>
+                <% end %>
+
+              <% end %>
+            <% end %>
+
+          <% if (check == 0) %>
+            <td>Not approved</td>
+            <td><%= link_to 'Apply', new_approved_buy_cat_path(:subcategory_id=> count), class: "btn but-b" %></td>
+          <% end %>
+          </tr>
+
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-md-5">
+    <h3>Sell Categories:</h3>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Category</th>
+        <th>Status</th>
+        <th>Apply</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% count = 0 %>
+      <% @subcategories.each do |subcategory| %>
+          <% count = count + 1 %>
+          <% check = 0 %>
+          <tr>
+            <td><%= subcategory.name %></td>
+
+            <% @trader.approved_sell_cats.each do |approved| %>
+                <% if (approved.sell_cat == subcategory) %>
+
+                    <% if (approved.status == 1) %>
+                        <td>Approved</td>
+                        <td><%= link_to 'Apply', home_path, class: "btn but-b",disabled: "disabled"%></td>
+                        <% check = 1 %>
+                        <% break %>
+                    <% end %>
+                    <% if (approved.status == 2) %>
+                        <td>Pending Approval</td>
+                        <td><%= link_to 'Apply', home_path, class: "btn but-b",disabled: "disabled" %></td>
+                        <% check = 1 %>
+                        <% break %>
+                    <% end %>
+                    <% if (approved.status == 3) %>
+                        <td>Declined</td>
+                        <td><%= link_to 'Apply', edit_approved_sell_cat_path(approved), class: "btn but-b"%></td>
+                        <% check = 1 %>
+                        <% break %>
+                    <% end %>
+
+                <% end %>
+            <% end %>
+
+            <% if (check == 0) %>
+                <td>Not approved</td>
+                <td><%= link_to 'Apply',new_approved_sell_cat_path(:subcategory_id=> count), class: "btn but-b" %></td>
+            <% end %>
+          </tr>
+
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class ="row" >
+    <h5>*Please allow 2 working days for a post that is pending approval</h5>
+</div>

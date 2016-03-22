@@ -1,0 +1,12 @@
+<div class="page-header">
+  <h1>Update Profile Picture</h1>
+</div>
+
+<%= simple_form_for(@picture) do |f| %>
+    <%= f.error_notification %>
+
+    <%= f.input :hidden, :as => :hidden, :value => @hidden %>
+    <%= f.input :image, as: :file %>
+    <%= f.button :submit, class: "but-r" %>
+
+<% end %>

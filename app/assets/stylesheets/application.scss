@@ -1,0 +1,207 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require bootstrap_and_overrides
+ *= require introjs.min.css
+ */
+
+@import "_normalize.css";
+
+$text-green: #283124;
+$nav-bar-green: #779A5F;
+$light-green: #dcf0cc;
+$bright-red: #bc2126;
+$sub-heading-green: #526f3d;
+
+*{
+  box-sizing: border-box;
+}
+
+.navbar-form{
+  box-shadow: none;
+}
+
+body{
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  background-color: $light-green;
+  a{
+    color: $sub-heading-green;
+    background-color: transparent;
+  }
+  a:hover, a:focus {
+    color: $bright-red;
+    text-decoration: none;
+    outline: 0;
+    background-color: transparent;
+  }
+  h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+  }
+  img {
+    border: 0;
+  }
+  hr {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+  }
+  button{
+    color: inherit; /* 1 */
+    font: inherit; /* 2 */
+    margin: 0; /* 3 */
+    overflow: visible;
+    text-transform: none;
+  }
+  button,
+  html input[type="button"], /* 1 */
+  input[type="reset"],
+  input[type="submit"] {
+    //-webkit-appearance: button; /* 2 */
+    cursor: pointer; /* 3 */
+  }
+
+}
+
+
+.heading-text{
+  font-weight: 700;
+  font-size: 2em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0.15em 0rem;
+  float: left;
+  color: #283124;
+  text-shadow:5px 5px 10px $light-green;
+}
+
+.subheading-text{
+  font-weight: 500;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  float: left;
+  color: $sub-heading-green;
+  padding-left: .6em;
+}
+
+.sub-cat-nav{
+  font-size: 1em;
+  padding-left: .8em;
+  width: 170px;
+}
+
+#cat-nav{
+  text-transform: uppercase;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+#sidebar{
+  margin-top: 102px;
+  position: fixed;
+  display: block !important;
+  float: left;
+  height: 30em;
+  width: 180px;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  background-color: $nav-bar-green;
+  ul{
+    position: absolute;
+    top:5rem;
+    width: 180px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font: inherit ;
+  }
+  li{
+    text-indent: 20px;
+    line-height: 40px;
+  }
+  li a {
+    display: block;
+    text-decoration: none;
+    color: $light-green;
+  }
+  li a:hover {
+    text-decoration: none;
+    color: $bright-red;
+    background: $light-green;
+  }
+  li a:active,
+  li a:focus {
+    text-decoration: none;
+  }
+}
+
+.main_body{
+  margin-top: 80px;
+  margin-left: 255px;
+  margin-right: 55px;
+}
+
+/* NAVIGATION BAR
+*/
+#navbar{
+  z-index: 1000;
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  background-color: $nav-bar-green;
+  overflow-y: auto;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  .container{
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  nav{
+    .button-holder{
+      display: inline;
+      padding: auto;
+      cursor:pointer;
+      height:20px;
+      width:35px;
+    }
+    .search-bar{
+      padding: .35em 0rem;
+      margin: 0px;
+      .navbar-form{
+        margin-left: -30px;
+      }
+    }
+    .link-buttons{
+      a{
+        background-color: transparent;
+        font-size: 1.1em;
+        font-weight:500;
+        color: $light-green;
+        padding-right: .4rem;
+      }
+      a:hover{
+        color: $bright-red;
+        text-decoration: none;
+      }
+      padding: 1.2em 0rem;
+    }
+  }
+}
+

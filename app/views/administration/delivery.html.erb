@@ -1,0 +1,41 @@
+<div class = "row">
+  <div class = "col-md-12">
+    <h3>Required Deliveries:</h3>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Quantity</th>
+        <th>Seller</th>
+        <th>Buyer</th>
+        <th>Pick Up Location</th>
+        <th>Drop Off Location</th>
+        <th>Deliver By</th>
+        <th>View</th>
+        <th>Dismiss</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @trades.each do |trade| %>
+        <% if (trade.post.delivery == false) %>
+          <tr>
+            <% a = [trade.post.line1,trade.post.city,trade.post.county,trade.post.postcode] %>
+            <% b= [trade.line1,trade.city,trade.county,trade.postcode] %>
+            <td><%= trade.post.name %></td>
+            <td><%= trade.post.subcategory.name %></td>
+            <td><%= trade.post.quantity %></td>
+            <td><%= trade.post.trader.username %></td>
+            <td><%= trade.trader.username %>
+            <td><%= a.map{|x| x}.join(", ")%></td>
+            <td><%= b.map{|x| x}.join(", ")%></td>
+            <td><%= (trade.time + 5.days ).strftime("%a %d %b %Y") %></td>
+            <td><%= link_to "View", trade, class: "btn btn-primary" %></td>
+            <td><%= link_to 'Dismiss', delivery_dismiss_path(post: trade.post), method: :post, class: "btn btn-success" %></td>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

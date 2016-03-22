@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-md-8">
+    <h3>Buy Approval Application:</h3>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Trader</th>
+        <th>Category</th>
+        <th>Created</th>
+        <th>Evidence</th>
+        <th>Approve</th>
+        <th>Decline</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @buy_approvals.each do |approval| %>
+              <tr>
+                <td><%= approval.trader.username %></td>
+                <td><%= approval.buy_cat.name %></td>
+                <td><%= distance_of_time_in_words(approval.created_at, Time.now)%> ago</td>
+                <td><%= link_to "View", approval.document.url(:original, false), class: "btn btn-primary" %></td>
+                <td><%= link_to 'Approve', approve_buy_path(update: approval.id), method: :post, class: "btn btn-success" %></td>
+                <td><%= link_to 'Decline', decline_buy_path(update: approval.id), method: :post, class: "btn btn-danger"%></td>
+              </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <h3>Sell Approval Application:</h3>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Trader</th>
+        <th>Category</th>
+        <th>Created</th>
+        <th>Evidence</th>
+        <th>Approve</th>
+        <th>Decline</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @sell_approvals.each do |approval| %>
+          <tr>
+            <td><%= approval.trader.username %></td>
+            <td><%= approval.sell_cat.name %></td>
+            <td><%= distance_of_time_in_words(approval.created_at, Time.now)%> ago</td>
+            <td><%= link_to "View", approval.document.url(:original, false), class: "btn btn-primary" %></td>
+            <td><%= link_to 'Approve', approve_sell_path(update: approval.id), method: :post, class: "btn btn-success" %></td>
+            <td><%= link_to 'Decline', decline_sell_path(update: approval.id), method: :post, class: "btn btn-danger"%></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<%= simple_form_for(@post) do |f| %>
+    <%= f.error_notification %>
+  <div class="row">
+    <div class="col-md-4 row">
+      <%= f.input :name %>
+      <%= f.input :description, as: :text, class: "desc-in"%>
+      <%= f.input :quantity%>
+      <%= f.input :price, label:'Price/Starting Price' %>
+      <%= f.association :subcategory, collection: @approved_cat %>
+    </div>
+
+    <div class="col-md-4">
+      <%= f.input :auction, label: 'Auction',hint: '(Would you like the item to be sold by auction?)' %>
+      <%= f.input :delivery, label: 'Delivery', hint:'(Are you going to provide delivery?)' %>
+      <%= f.input :delivery_days, label: 'Delivery Days',
+                  hint:'(If providing delivery what is the number of days in which you can guarantee delivery?)' %>
+      <%= f.input :private, label: 'Private', hint:'(Would you like your name and location to be hidden?)'%>
+      <%= f.input :provide_samples, label: 'Samples', hint: '(Are you willing to send samples of the product to prospective buyers?)' %>
+    </div>
+    <div class="col-md-4">
+
+      <h4>Item's Location</h4>
+      <%= f.input :line1%>
+      <%= f.input :city %>
+      <%= f.input :county %>
+      <%= f.input :postcode%>
+      <%= f.input :image, as: :file %>
+      <br/>
+      <%= f.button :submit, class:"but-r"%>
+    </div>
+  </div>
+<% end %>

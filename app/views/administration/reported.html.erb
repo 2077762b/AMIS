@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-8">
+    <h3>Reported Posts:</h3>
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Trader</th>
+        <th>View</th>
+        <th>Dismiss</th>
+        <th>Remove</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @reported.each do |report| %>
+          <tr>
+            <td><%= report.name %></td>
+            <td><%= report.subcategory.name %></td>
+            <td><%= report.trader.username %></td>
+            <td><%= link_to "View", report, class: "btn btn-primary" %></td>
+            <td><%= link_to 'Dismiss', reported_dismiss_path(post: report.id), method: :post, class: "btn btn-success" %></td>
+            <td><%= link_to 'Remove', reported_delete_path(post: report.id), method: :post, class: "btn btn-danger"%></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

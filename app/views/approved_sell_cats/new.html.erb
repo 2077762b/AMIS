@@ -1,0 +1,13 @@
+<div class="page-header">
+  <h2>Make application to get <%= @approved_sell_cat.sell_cat.name %> in your approved sell list</h2>
+</div>
+
+<%= simple_form_for(@approved_sell_cat) do |f| %>
+    <%= f.error_notification %>
+
+    <%= f.input :document, as: :file, label: "Please upload a PDF document
+    providing evidence that you can sell items legally in this category" %>
+    <%= f.input :sell_cat_id, :as => :hidden %>
+    <%= f.button :submit, "Make application", class: "but-b" %>
+
+<% end %>

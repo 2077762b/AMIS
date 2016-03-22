@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1>Purchase Item: <%= @trade.post.name%></h1>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <h4><%= @trade.post.name %></h4>
+    <%= image_tag @trade.post.image.url(:small) %>
+    <br/>
+    <br/>
+  </div>
+
+  <div class="col-md-6">
+    <h5><%= @trade.post.description %></h5>
+    <h5><%= @trade.post.quantity %></h5>
+    <h5><strong>Price:</strong> £<%= number_with_precision(@trade.post.price, precision: 2) %>
+      <% if !@trade.post.delivery? %>
+      (+ £4.99 delivery)
+      <% end %></h5>
+    <% if !(@trade.post.private) %>
+        <h5><strong>Sold by:</strong> <%= @trade.post.trader.username %></h5>
+        <h5><strong>Sellers location:</strong> <%= @trade.post.location %></h5>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2">
+    <%= simple_form_for(@trade) do |f| %>
+        <%= f.error_notification %>
+
+        <%= f.input :post_id, :as => :hidden %>
+        <%= f.input :delivery_location, label: "Your location" %>
+      <%= f.button :submit, "Trade", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+
+
+<%= #link_to 'Purchase', new_trade_path(:post => @post), class: "btn btn-info" %>
