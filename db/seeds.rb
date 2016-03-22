@@ -57,7 +57,7 @@ Post.create(name: 'Brass cuts', description: 'Brass cuts from handmade musical i
             county: Faker::Address.state, postcode: Faker::Address.postcode)
 
 Post.create(name: 'Gold nuggets', description: 'Scraps from jewellery shop, 9 ct',
-            price: '99.99', private: 'true',subcategory_id: '3',active: 'true',
+            price: '99.99', private: 'true',subcategory_id: '3',active: 'true', auction:'false',
             delivery: 'true', trader_id: '1',quantity:"50 g", provide_samples: 'true',
             image: File.new("#{Rails.root}/app/assets/images/gold.jpg"), delivery_days: '3',
             line1: Faker::Address.street_address, city: Faker::Address.city,
@@ -65,7 +65,7 @@ Post.create(name: 'Gold nuggets', description: 'Scraps from jewellery shop, 9 ct
 
 Post.create(name: 'Iron shavings', description: 'Shavings of iron from out factory production line',
             price: '20.00', private: 'false',subcategory_id: '1',active: 'true',
-            delivery: 'false', trader_id: '2',quantity:"1 kg",
+            delivery: 'false', trader_id: '2',quantity:"1 kg", auction:'false',
             image: File.new("#{Rails.root}/app/assets/images/iron.jpg"),
             line1: Faker::Address.street_address, city: Faker::Address.city,
             county: Faker::Address.state,postcode: Faker::Address.postcode)
@@ -78,7 +78,7 @@ Post.create(name: 'Ship hull Iron', description: 'Iron from the hull of a decomm
             county: Faker::Address.state,postcode: Faker::Address.postcode)
 
 Post.create(name: 'Gold chains', description: '21 ct gold chains',
-            price: '250.00', private: 'true',subcategory_id: '3',active: 'true',
+            price: '250.00', private: 'true',subcategory_id: '3',active: 'true', auction:'false',
             delivery: 'true', trader_id: '2',quantity:"10 chains", provide_samples: 'true',
             image: File.new("#{Rails.root}/app/assets/images/gold.jpg"), delivery_days: '4',
             line1: Faker::Address.street_address, city: Faker::Address.city,
@@ -86,20 +86,20 @@ Post.create(name: 'Gold chains', description: '21 ct gold chains',
 
 Post.create(name: 'Oak logs', description: 'Logs from our forestry plant too small for general sale',
             price: '50.00', private: 'false',subcategory_id: '4',active: 'true',
-            delivery: 'true', trader_id: '4',quantity:"15 kg",
+            delivery: 'true', trader_id: '4',quantity:"15 kg", auction:'false',
             image: File.new("#{Rails.root}/app/assets/images/oak.jpg"), delivery_days: '5',
             line1: Faker::Address.street_address, city: Faker::Address.city,
             county: Faker::Address.state,postcode: Faker::Address.postcode)
 
 Post.create(name: 'Test item 1', description: 'This is a test item',
             price: '127.50', private: 'false',subcategory_id: '4',active: 'true',
-            delivery: 'true', trader_id: '4',quantity:"20 kg",
+            delivery: 'true', trader_id: '4',quantity:"20 kg", auction:'false',
             image: File.new("#{Rails.root}/app/assets/images/oak.jpg"), delivery_days: '3',
             line1: Faker::Address.street_address, city: Faker::Address.city,
             county: Faker::Address.state,postcode: Faker::Address.postcode)
 
 Post.create(name: 'Test item 2', description: 'This is a test item',
-            price: '66.60', private: 'true',subcategory_id: '5',active: 'true',
+            price: '66.60', private: 'true',subcategory_id: '5',active: 'true', auction:'false',
             delivery: 'false', trader_id: '4',quantity:"2 kg", provide_samples: 'true',
             image: File.new("#{Rails.root}/app/assets/images/birch.jpg"),
             line1: Faker::Address.street_address, city: Faker::Address.city,
@@ -107,20 +107,20 @@ Post.create(name: 'Test item 2', description: 'This is a test item',
 
 Post.create(name: 'Gold Ring', description: 'a 9ct gold ring',
             price: '10.00', private: 'true',subcategory_id: '3',active: 'true',
-            delivery: 'true', trader_id: '3',quantity:"10 chains",
+            delivery: 'true', trader_id: '3',quantity:"10 chains", auction:'false',
             image: File.new("#{Rails.root}/app/assets/images/gold.jpg"), delivery_days: '4',
             line1: Faker::Address.street_address, city: Faker::Address.city,
             county: Faker::Address.state,postcode: Faker::Address.postcode)
 
 Post.create(name: 'Test Item 3', description: 'This is a test item',active: 'false',
             price: '135.00',subcategory_id: '6', trader_id: '3',quantity:"1 kg", delivery: 'false',private: 'false',
-            image: File.new("#{Rails.root}/app/assets/images/mahogany.jpg"),
+            image: File.new("#{Rails.root}/app/assets/images/mahogany.jpg"), auction:'false',
             line1: Faker::Address.street_address, city: Faker::Address.city,
             county: Faker::Address.state,postcode: Faker::Address.postcode)
 
 Post.create(name: 'Test item with really long names for every field',
             description: 'This is a test item with really long names for every field so that we can test wrapping',
-            price: '99999999.99', private: 'false',subcategory_id: '6',active: 'true',
+            price: '99999999.99', private: 'false',subcategory_id: '6',active: 'true',auction:'false',
             delivery: 'true', trader_id: '3',quantity:"Lots and lots and lots and lots",
             image: File.new("#{Rails.root}/app/assets/images/mahogany.jpg"),
             delivery_days: '50', report: 'true',
@@ -168,7 +168,7 @@ for i in 14..112
 end
 
 Post.create(name: 'Test item 4', description: 'This is a test item', price: '5.99', private: 'false',
-            subcategory_id: '2', active: 'true', quantity: '100g', delivery: 'true',
+            subcategory_id: '2', active: 'true', quantity: '100g', delivery: 'true', auction:'false',
             image: File.new("#{Rails.root}/app/assets/images/Brass.jpg"),
             delivery_days: '5', report: 'false',trader_id: '1',
             line1: Faker::Address.street_address, city: Faker::Address.city,
